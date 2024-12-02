@@ -1,0 +1,27 @@
+name: FFmpeg Dual Stream
+
+on:
+  workflow_dispatch: # للتشغيل اليدوي
+
+jobs:
+  stream-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: إعداد FFmpeg
+      run: |
+        sudo apt update && sudo apt install -y ffmpeg
+
+    - name: بث القناة الأولى
+      run: |
+        ffmpeg -re -i "http://mo3ad.xyz:25461/93PMdK65RS/zvqnDquTE2/4" \
+        -c:v libx264 -preset ultrafast -b:v 1500k \
+        -c:a aac -b:a 96k -f flv \
+        "rtmps://live-api-s.facebook.com:443/rtmp/FB-1296839344840235-0-AbzwHaEOe1UKdjZt" &
+
+    - name: بث القناة الثانية
+      run: |
+        ffmpeg -re -i "http://mo3ad.xyz:25461/93PMdK65RS/zvqnDquTE2/5" \
+        -c:v libx264 -preset ultrafast -b:v 1500k \
+        -c:a aac -b:a 96k -f flv \
+        "rtmps://live-api-s.facebook.com:443/rtmp/FB-1296839978173505-0-AbwUJChOQG_0l07K"
